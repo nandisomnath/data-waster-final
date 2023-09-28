@@ -7,6 +7,7 @@ def download(url_path):
     for data in res.iter_content(chunk_size=1024):
         # print(data)
         pass
+    res.close()
     if res.status_code != 200:
         print("Download Error.. ")
 
