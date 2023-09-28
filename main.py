@@ -4,7 +4,8 @@ import requests
 def download(url_path):
     # print("Starting download..")
     res = requests.get(url_path, stream=True)
-    for data in res.iter_content(chunk_size=1024):
+    size = 2 * 1024
+    for data in res.iter_content(chunk_size=size):
         # print(data)
         pass
     res.close()
@@ -14,7 +15,9 @@ def download(url_path):
 
 if __name__ == "__main__":
     url = "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso"
-    for i in range(1, 23):
+    i = 0
+    while True:
         print(f"Downloading {i} no. file ")
         download(url)
+        i = i +1
     # download(url)
