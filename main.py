@@ -2,7 +2,6 @@ import requests
 
 
 def download(url_path):
-    # print("Starting download..")
     res = requests.get(url_path, stream=True)
     size = 2 * 1024
     for data in res.iter_content(chunk_size=size):
@@ -18,6 +17,12 @@ if __name__ == "__main__":
     i = 0
     while True:
         print(f"Downloading {i} no. file ")
-        download(url)
+
+        try:
+             download(url)
+        except Exception as e:
+            print("Downloading error occured...")
+            print(e)
+
         i = i +1
     # download(url)
