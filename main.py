@@ -26,7 +26,6 @@ def download(url_path):
 if __name__ == "__main__":
     api_url = "https://testing-one-orpin.vercel.app"
     urls = [
-        "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso",
         "https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso",
         "https://kali.download/base-images/kali-2023.4/kali-linux-2023.4-live-amd64.iso",
         "https://download-cdn.jetbrains.com/idea/ideaIC-2023.3.4.exe",
@@ -41,20 +40,20 @@ if __name__ == "__main__":
     i = 0
     current_url = 0
     total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
+    print("Total Download Completed: {}".format(total_size_in_gb))
     while True:
+        if current_url == len(urls):
+            current_url = 0
         try:
             dataTuple = download(url)
             current_url = current_url+1
             url = urls[current_url]
             canDownloaded = dataTuple[0]
-            
-            if current_url == len(urls):
-                current_url = 0
-                
             if canDownloaded:
                 total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
-                # updating api
-                requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
+                if total_size_in_gb != 0.0:
+                    # updating api
+                    requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
                 res = requests.get(f"{api_url}/usage").json()
                 value = float(res["value"])
                 print(f"Completed Amount : {value:.2f} GB")
