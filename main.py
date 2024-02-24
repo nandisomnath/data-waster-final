@@ -61,6 +61,6 @@ if __name__ == "__main__":
                 
         except Exception as e:
             print("Downloading error occured...")
-            print(e.with_traceback())
+            print(e)
 
         i = i +1
