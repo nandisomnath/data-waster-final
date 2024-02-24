@@ -35,31 +35,23 @@ if __name__ == "__main__":
     ]
     # for testing only
     # url = "https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi"
-    url = urls[0]
     
-    i = 0
-    current_url = 0
     total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
-    print("Total Download Completed: {}".format(total_size_in_gb))
+    print("Total Download Completed: {} GB".format(total_size_in_gb))
     while True:
-        if current_url == len(urls):
-            current_url = 0
         try:
-            dataTuple = download(url)
-            current_url = current_url+1
-            url = urls[current_url]
-            canDownloaded = dataTuple[0]
-            if canDownloaded:
-                total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
-                if total_size_in_gb != 0.0:
-                    # updating api
-                    requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
-                res = requests.get(f"{api_url}/usage").json()
-                value = float(res["value"])
-                print(f"Completed Amount : {value:.2f} GB")
+            for url in urls:
+                dataTuple = download(url)
+                canDownloaded = dataTuple[0]
+                if canDownloaded:
+                    total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
+                    if total_size_in_gb != 0.0:
+                        # updating api
+                        requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
+                    res = requests.get(f"{api_url}/usage").json()
+                    value = float(res["value"])
+                    print(f"Completed Amount : {value:.2f} GB")
                 
         except Exception as e:
             print("Downloading error occured...")
             print(e)
-
-        i = i +1
