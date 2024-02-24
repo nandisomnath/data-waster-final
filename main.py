@@ -1,17 +1,25 @@
 import requests
+from tqdm import tqdm
 
 
 def download(url_path):
     canDownloaded = True 
     res = requests.get(url_path, stream=True)
-    size = 2 * 1024
-    for data in res.iter_content(chunk_size=size):
-        pass
-    res.close()
     if res.status_code != 200:
         canDownloaded = False
-        print("Unable to find file.. ")
-    return canDownloaded
+        return (canDownloaded, 0)
+    size = 2 * 1024
+    total_size_in_bytes = int(res.headers.get('Content-Length', 0))
+    
+    for data in tqdm(res.iter_content(size), 
+                          desc='Data Wasting', 
+                          total=total_size_in_bytes // size, 
+                          unit='KB'):
+        pass
+    
+    res.close()
+    
+    return (canDownloaded, total_size_in_bytes)
 
 
 if __name__ == "__main__":
@@ -27,16 +35,19 @@ if __name__ == "__main__":
     url = urls[0]
     i = 0
     current_url = 0
+    total_size_in_mb = 0
     while True:
-        print(f"Downloading {i} no. file ")
-
         try:
-             canDownloaded = download(url)
+             dataTuple = download(url)
+             total_size_in_mb = total_size_in_mb + (dataTuple[1] // (1024*1024))
+             canDownloaded = dataTuple[0]
              if current_url == len(urls):
                  print("No supported url found..")
              if not canDownloaded:
                  current_url = current_url+1
                  url = urls[current_url]
+             else:
+                 print(f"Completed Amount : {total_size_in_mb} MB")
         except Exception as e:
             print("Downloading error occured...")
             print(e)
