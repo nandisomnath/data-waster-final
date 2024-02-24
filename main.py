@@ -3,8 +3,10 @@ from tqdm import tqdm
 
 
 def download(url_path):
+    print("donwload")
     canDownloaded = True 
     res = requests.get(url_path, stream=True)
+    
     if res.status_code != 200:
         canDownloaded = False
         return (canDownloaded, 0)
@@ -42,24 +44,22 @@ if __name__ == "__main__":
     total_size_in_gb = 0.0
     while True:
         try:
-             dataTuple = download(url)
-             total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
-             
-             # updating api
-             requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
-             
-             canDownloaded = dataTuple[0]
-             
-             if current_url == len(urls):
-                 current_url = 0
-                 
-             if canDownloaded:
-                 current_url = current_url+1
-                 url = urls[current_url]
-                 res = requests.get(f"{api_url}/usage").json()
-                 value = float(res["value"])
-                 print(f"Completed Amount : {value:.2f} GB")
-                 
+            dataTuple = download(url)
+            current_url = current_url+1
+            url = urls[current_url]
+            canDownloaded = dataTuple[0]
+            
+            if current_url == len(urls):
+                current_url = 0
+                
+            if canDownloaded:
+                total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
+                # updating api
+                requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
+                res = requests.get(f"{api_url}/usage").json()
+                value = float(res["value"])
+                print(f"Completed Amount : {value:.2f} GB")
+                
         except Exception as e:
             print("Downloading error occured...")
             print(e.with_traceback())
