@@ -53,4 +53,3 @@ if __name__ == "__main__":
             print(e)
 
         i = i +1
-    # download(url)
