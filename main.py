@@ -3,7 +3,6 @@ from tqdm import tqdm
 
 
 def download(url_path):
-    print("donwload")
     canDownloaded = True 
     res = requests.get(url_path, stream=True)
     
