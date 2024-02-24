@@ -46,8 +46,8 @@ if __name__ == "__main__":
              total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
              
              # updating api
-             res1 = requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
-             print(f"update {res1.json()}")
+             requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
+             
              canDownloaded = dataTuple[0]
              
              if current_url == len(urls):
@@ -57,8 +57,8 @@ if __name__ == "__main__":
                  current_url = current_url+1
                  url = urls[current_url]
                  res = requests.get(f"{api_url}/usage").json()
-                 print(f"res {res}")
-                 print(f"Completed Amount : {float(res["value"]):.2f} GB")
+                 value = float(res["value"])
+                 print(f"Completed Amount : {value:.2f} GB")
                  
         except Exception as e:
             print("Downloading error occured...")
