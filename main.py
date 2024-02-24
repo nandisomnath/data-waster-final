@@ -40,7 +40,7 @@ if __name__ == "__main__":
     
     i = 0
     current_url = 0
-    total_size_in_gb = 0.0
+    total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
     while True:
         try:
             dataTuple = download(url)
