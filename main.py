@@ -35,11 +35,11 @@ if __name__ == "__main__":
     url = urls[0]
     i = 0
     current_url = 0
-    total_size_in_mb = 0
+    total_size_in_mb = 0.0
     while True:
         try:
              dataTuple = download(url)
-             total_size_in_mb = total_size_in_mb + (dataTuple[1] // (1024*1024))
+             total_size_in_mb = total_size_in_mb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
              canDownloaded = dataTuple[0]
              if current_url == len(urls):
                  print("No supported url found..")
@@ -47,7 +47,7 @@ if __name__ == "__main__":
                  current_url = current_url+1
                  url = urls[current_url]
              else:
-                 print(f"Completed Amount : {total_size_in_mb} MB")
+                 print(f"Completed Amount : {total_size_in_mb:.2f} GB")
         except Exception as e:
             print("Downloading error occured...")
             print(e)
