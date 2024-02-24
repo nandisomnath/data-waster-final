@@ -23,6 +23,7 @@ def download(url_path):
 
 
 if __name__ == "__main__":
+    api_url = "https://testing-one-orpin.vercel.app"
     urls = [
         "https://releases.ubuntu.com/22.04.3/ubuntu-22.04.3-desktop-amd64.iso",
         "https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso",
@@ -32,24 +33,35 @@ if __name__ == "__main__":
         "https://mirror.4v1.in/archlinux/iso/2024.02.01/archlinux-2024.02.01-x86_64.iso",
         
     ]
+    # for testing only
+    # url = "https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi"
     url = urls[0]
+    
     i = 0
     current_url = 0
-    total_size_in_mb = 0.0
+    total_size_in_gb = 0.0
     while True:
         try:
              dataTuple = download(url)
-             total_size_in_mb = total_size_in_mb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
+             total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
+             
+             # updating api
+             res1 = requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
+             print(f"update {res1.json()}")
              canDownloaded = dataTuple[0]
+             
              if current_url == len(urls):
-                 print("No supported url found..")
-             if not canDownloaded:
+                 current_url = 0
+                 
+             if canDownloaded:
                  current_url = current_url+1
                  url = urls[current_url]
-             else:
-                 print(f"Completed Amount : {total_size_in_mb:.2f} GB")
+                 res = requests.get(f"{api_url}/usage").json()
+                 print(f"res {res}")
+                 print(f"Completed Amount : {float(res["value"]):.2f} GB")
+                 
         except Exception as e:
             print("Downloading error occured...")
-            print(e)
+            print(e.with_traceback())
 
         i = i +1
