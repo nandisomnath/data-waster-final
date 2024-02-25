@@ -2,6 +2,8 @@ import requests
 from tqdm import tqdm
 
 
+
+
 def update_file(value):
     file = open("data.txt", "w")
     file.write(f"{value}")
@@ -36,16 +38,14 @@ def download(url_path):
     return (canDownloaded, total_size_in_bytes)
 
 
+
 if __name__ == "__main__":
-    # api_url = "https://testing-one-orpin.vercel.app"
-    urls = [
-        "https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso",
-        "https://kali.download/base-images/kali-2023.4/kali-linux-2023.4-live-amd64.iso",
-        "https://download-cdn.jetbrains.com/idea/ideaIC-2023.3.4.exe",
-        "https://debian.mirror.digitalpacific.com.au/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso",
-        "https://mirror.4v1.in/archlinux/iso/2024.02.01/archlinux-2024.02.01-x86_64.iso",
-        
-    ]
+    api_url = "https://testing-one-orpin.vercel.app"
+    file =open("urls.txt", "r")
+    urls = []
+    for x in file:
+        urls.append(x.strip())
+    file.close()
     # for testing only
     # url = "https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi"
     
