@@ -16,3 +16,4 @@ https://download.fedoraproject.org/pub/fedora/linux/releases/39/Workstation/x86_
 https://redirector.gvt1.com/edgedl/android/studio/install/2023.1.1.28/android-studio-2023.1.1.28-windows.exe
 https://github.com/brechtsanders/winlibs_mingw/releases/download/13.2.0posix-17.0.6-11.0.1-ucrt-r5/winlibs-i686-posix-dwarf-gcc-13.2.0-llvm-17.0.6-mingw-w64ucrt-11.0.1-r5.zip
 https://software.download.prss.microsoft.com/dbazure/Win11_23H2_English_x64v2.iso
+https://ipv4-c004-blr002-bhartiairtel-isp.1.oca.nflxvideo.net/speedtest/range/0-26214399?c=in&n=132559&v=100&e=1708888706&t=Hvw6INnykctoS49wSoOe0rJMp_fX9vEPGxBGQA
