@@ -24,13 +24,16 @@ def download(url_path):
     if res.status_code != 200:
         canDownloaded = False
         return (canDownloaded, 0)
-    size = 2 * 1024
+    size = 1024 * 1024
     total_size_in_bytes = int(res.headers.get('Content-Length', 0))
     
     for data in tqdm(res.iter_content(size), 
                           desc='Data Wasting', 
                           total=total_size_in_bytes // size, 
-                          unit='KB'):
+                          unit='MB',
+                          colour='green',
+                          mininterval=0.2,
+                          unit_scale=True):
         pass
     
     res.close()
@@ -40,7 +43,7 @@ def download(url_path):
 
 
 if __name__ == "__main__":
-    api_url = "https://testing-one-orpin.vercel.app"
+    # api_url = "https://testing-one-orpin.vercel.app"
     file =open("urls.txt", "r")
     urls = []
     for x in file:
