@@ -2,6 +2,19 @@ import requests
 from tqdm import tqdm
 
 
+def update_file(value):
+    file = open("data.txt", "w")
+    file.write(f"{value}")
+    file.close()
+
+
+def read_file():
+    file = open("data.txt", "r")
+    line = file.readline()
+    value = float(line.strip())
+    file.close()
+    return value
+
 def download(url_path):
     canDownloaded = True 
     res = requests.get(url_path, stream=True)
@@ -24,7 +37,7 @@ def download(url_path):
 
 
 if __name__ == "__main__":
-    api_url = "https://testing-one-orpin.vercel.app"
+    # api_url = "https://testing-one-orpin.vercel.app"
     urls = [
         "https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso",
         "https://kali.download/base-images/kali-2023.4/kali-linux-2023.4-live-amd64.iso",
@@ -36,7 +49,9 @@ if __name__ == "__main__":
     # for testing only
     # url = "https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi"
     
-    total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
+    # total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
+    total_size_in_gb = read_file()
+    firstTime = True
     print("Total Download Completed: {} GB".format(total_size_in_gb))
     while True:
         try:
@@ -45,11 +60,11 @@ if __name__ == "__main__":
                 canDownloaded = dataTuple[0]
                 if canDownloaded:
                     total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(1024 * 1024 * 1024)
-                    if total_size_in_gb != 0.0:
+                    if total_size_in_gb != 0.0 or firstTime:
                         # updating api
-                        requests.get(f"{api_url}/update/usage/{total_size_in_gb}")
-                    res = requests.get(f"{api_url}/usage").json()
-                    value = float(res["value"])
+                        update_file(total_size_in_gb)
+                        firstTime = False
+                    value = read_file()
                     print(f"Completed Amount : {value:.2f} GB")
                 
         except Exception as e:
