@@ -1,13 +1,14 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
 	"strings"
+
+	progressbar "github.com/schollz/progressbar/v3"
 )
 
 func try(err error) {
@@ -30,10 +31,12 @@ func SetUrls(url string) bool {
 	rawStringData := string(dataOfFile)
 	isContains := strings.Contains(rawStringData, url)
 	file, err := os.OpenFile("urls.txt", os.O_APPEND, 0644)
-	defer file.Close()
+	try(err)
+	defer func() {
+		file.Close()
+	}()
 
 	if !isContains {
-		// os.WriteFile("urls.txt", []byte(), os.ModeAppend)
 		_, err = file.WriteString(fmt.Sprintf("%s\n", url))
 		try(err)
 	}
@@ -41,21 +44,20 @@ func SetUrls(url string) bool {
 	return isContains
 }
 
+// io.Copy(io.MultiWriter(f, bar), resp.Body)
+
 func SendRequest(url string) {
 	response, err := http.Get(url)
 	if err != nil {
 		return
 	}
-	reader := bufio.NewReader(response.Body)
-	var buffer = make([]byte, 2048)
-	_, err = reader.Read(buffer)
 
-	for err != io.EOF {
-		if err != nil {
-			return
-		}
-		_, err = reader.Read(buffer)
-	}
+	bar := progressbar.DefaultBytes(
+		-1,
+		strings.TrimSpace(url),
+	)
+	io.Copy(io.MultiWriter(bar), response.Body)
+
 }
 
 func main() {
