@@ -29,7 +29,7 @@ func SetUrls(url string) bool {
 	try(err)
 	rawStringData := string(dataOfFile)
 	isContains := strings.Contains(rawStringData, url)
-	file, err := os.OpenFile("urls.txt", os.O_APPEND ,0644)
+	file, err := os.OpenFile("urls.txt", os.O_APPEND, 0644)
 	defer file.Close()
 
 	if !isContains {
@@ -41,18 +41,22 @@ func SetUrls(url string) bool {
 	return isContains
 }
 
-func SendRequest(url string)  {
+func SendRequest(url string) {
 	response, err := http.Get(url)
-	try(err)
+	if err != nil {
+		return
+	}
 	reader := bufio.NewReader(response.Body)
 	var buffer = make([]byte, 2048)
 	_, err = reader.Read(buffer)
 
 	for err != io.EOF {
+		if err != nil {
+			return
+		}
 		_, err = reader.Read(buffer)
 	}
 }
-
 
 func main() {
 	url := flag.String("u", "", "Enter a url for add")
@@ -69,8 +73,10 @@ func main() {
 
 	urls := GetUrls()
 
-	for _, url := range urls {
-		SendRequest(strings.TrimSpace(url))
+	for {
+		for _, url := range urls {
+			SendRequest(strings.TrimSpace(url))
+		}
 	}
 
 }
