@@ -20,3 +20,11 @@ https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.2.3
 https://github.com/torvalds/linux/archive/refs/heads/master.zip
 https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-desktop-amd64.iso
 https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso
+https://kali.download/base-images/kali-2024.2/kali-linux-2024.2-installer-amd64.iso
+https://mirrors.cicku.me/linuxmint/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso
+https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso
+https://releases.ubuntu.com/24.04/ubuntu-24.04-desktop-amd64.iso
+https://mirror.xeonbd.com/fedora/linux/releases/40/Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-40-1.14.iso
+https://r2.garudalinux.org/iso/garuda/gnome/240428/garuda-gnome-linux-zen-240428.iso
+https://excellmedia.dl.sourceforge.net/project/garuda-linux/garuda/gnome/240428/garuda-gnome-linux-zen-240428.iso
+https://download.manjaro.org/gnome/24.0.3/manjaro-gnome-24.0.3-240702-linux69.iso
