@@ -2,8 +2,6 @@ import requests
 from tqdm import tqdm
 
 
-
-
 def update_file(value):
     file = open("data.txt", "w")
     file.write(f"{value}")
@@ -27,17 +25,27 @@ def download(url_path):
     size = 1024 * 1024
     total_size_in_bytes = int(res.headers.get('Content-Length', 0))
     
-    for data in tqdm(res.iter_content(size), 
+    td_bar = tqdm(res.iter_content(size), 
                           desc='Data Wasting', 
                           total=total_size_in_bytes // size, 
                           unit='MB',
                           colour='green',
                           mininterval=0.2,
-                          unit_scale=True):
-        pass
+                          leave=True,
+                          unit_scale=True)
+    t = td_bar.last_print_t
     
+    count = 0
+    for data in td_bar:
+        if td_bar.last_print_t - t >= 1.1: 
+            count = count +1
+        if count >= 5:
+            total_size_in_bytes = 0
+            break
+        t = td_bar.last_print_t
+       
     res.close()
-    
+    td_bar.close()
     return (canDownloaded, total_size_in_bytes)
 
 
@@ -49,16 +57,14 @@ if __name__ == "__main__":
     for x in file:
         urls.append(x.strip())
     file.close()
-    # for testing only
-    # url = "https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi"
     
-    # total_size_in_gb =  float(requests.get(f"{api_url}/usage").json()["value"])
     total_size_in_gb = read_file()
     firstTime = True
     print("Total Download Completed: {} GB".format(total_size_in_gb))
     while True:
         try:
             for url in urls:
+                print(f"=> {url}")
                 dataTuple = download(url)
                 canDownloaded = dataTuple[0]
                 if canDownloaded:
@@ -68,6 +74,8 @@ if __name__ == "__main__":
                         update_file(total_size_in_gb)
                         firstTime = False
                     value = read_file()
+                    if dataTuple[1] == 0:
+                        continue
                     print(f"Completed Amount : {value:.2f} GB")
                 
         except Exception as e:
