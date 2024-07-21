@@ -1,7 +1,6 @@
 https://kali.download/base-images/kali-2023.4/kali-linux-2023.4-live-amd64.iso
 https://download.visualstudio.microsoft.com/download/pr/d601fb18-a930-4042-82f7-a8fb9965f3ec/7d6c1f7945b0f587cd06e74c6e11d3fe/microsoft-jdk-21.0.2-windows-x64.msi
 https://download-cdn.jetbrains.com/idea/ideaIC-2023.3.4.exe
-https://wslstorestorage.blob.core.windows.net/wslblob/wsl_update_x64.msi
 https://debian.mirror.digitalpacific.com.au/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
 https://mirror.4v1.in/archlinux/iso/2024.02.01/archlinux-2024.02.01-x86_64.iso
 https://rockedge.org/kernels/data/ISO/F96-CE/F96-CE_4.iso
@@ -17,7 +16,6 @@ https://software.download.prss.microsoft.com/dbazure/Win11_23H2_English_x64v2.is
 https://download.swift.org/swift-5.9.2-release/windows10/swift-5.9.2-RELEASE/swift-5.9.2-RELEASE-windows10.exe
 https://ipv4-c004-blr002-bhartiairtel-isp.1.oca.nflxvideo.net/speedtest/range/0-26214399?c=in&n=132559&v=100&e=1708888706&t=Hvw6INnykctoS49wSoOe0rJMp_fX9vEPGxBGQA
 https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-3.2.3-1/rubyinstaller-devkit-3.2.3-1-x64.exe
-https://github.com/torvalds/linux/archive/refs/heads/master.zip
 https://releases.ubuntu.com/22.04.4/ubuntu-22.04.4-desktop-amd64.iso
 https://mirrors.nxtgen.com/linuxmint-mirror/iso/stable/21.3/linuxmint-21.3-cinnamon-64bit.iso
 https://kali.download/base-images/kali-2024.2/kali-linux-2024.2-installer-amd64.iso
