@@ -43,12 +43,14 @@ def download(url_path, max_speed, percentage_limit):
     max_speed in Mbs unit like 50 Mbs -> (50 /8) MB/s
     """
     canDownloaded = True
-    res = requests.get(url_path, stream=True, timeout=20)
+    res = requests.get(url_path, stream=True, timeout=5)
 
     if res.status_code != 200:
         canDownloaded = False
         return (canDownloaded, 0)
-   
+    
+    print(f"=> {url}")
+
     total_size_in_bytes = int(res.headers.get("Content-Length", 0))
 
     td_bar = tqdm(
@@ -65,12 +67,13 @@ def download(url_path, max_speed, percentage_limit):
     for data in res.iter_content(chunk_size=size):
         td_bar.update(len(data))
         time.sleep(0.99) # sleep for second to adjust the speed
-        if td_bar.last_print_t - t >= 1.1:
-            count = count + 1
-        if count >= 5:
-            total_size_in_bytes = 0
-            break
-        t = td_bar.last_print_t
+        # Checking if the file is stuck or not
+        # if td_bar.last_print_t - t >= 1.1:
+        #     count = count + 1
+        # if count >= 5:
+        #     total_size_in_bytes = 0
+        #     break
+        # t = td_bar.last_print_t
 
     res.close()
     td_bar.close()
@@ -102,26 +105,35 @@ if __name__ == "__main__":
 
     total_size_in_gb = read_file()
     firstTime = True
+
     print("Total Download Completed: {} GB".format(total_size_in_gb))
     while True:
-        try:
             for url in urls:
-                print(f"=> {url}")
-                dataTuple = download(url, max_speed, percentage_limit)
-                canDownloaded = dataTuple[0]
-                if canDownloaded:
-                    total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(
-                        1024 * 1024 * 1024
-                    )
-                    if total_size_in_gb != 0.0 or firstTime:
-                        # updating api
-                        update_file(total_size_in_gb)
-                        firstTime = False
-                    value = read_file()
-                    if dataTuple[1] == 0:
-                        continue
-                    print(f"Completed Amount : {value:.2f} GB")
+                try:
+                    
+                    dataTuple = download(url, max_speed, percentage_limit)
+                    canDownloaded = dataTuple[0]
+                    if canDownloaded:
+                        total_size_in_gb = total_size_in_gb + float(dataTuple[1]) / float(
+                            1024 * 1024 * 1024
+                        )
+                        if total_size_in_gb != 0.0 or firstTime:
+                            # updating api
+                            update_file(total_size_in_gb)
+                            firstTime = False
+                        value = read_file()
+                        if dataTuple[1] == 0:
+                            continue
+                        print(f"Completed Amount : {value:.2f} GB")
 
-        except Exception as e:
-            print("Downloading error occured...")
-            print(e)
+                except requests.exceptions.ConnectionError as e:
+                    # when there is not internet or any connection
+                    pass
+                except requests.exceptions.ChunkedEncodingError as e:
+                    # When not able to download full
+                    pass
+                
+
+        # except Exception as e:
+        #     print("Downloading error occured...")
+        #     print(e)
