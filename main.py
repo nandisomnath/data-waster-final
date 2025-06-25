@@ -15,12 +15,19 @@ def get_limit_size(max_speed, percentage_speed_limit):
     if percentage_speed_limit > 100:
         print("Using speed limit greater then 100% ")
         return None
+    
     user_speed_limit = (
-        (percentage_speed_limit) / 100 
-        * max_speed
-        / 8
+        (percentage_speed_limit) / 100 # 0.x
+        * max_speed # 6 mb/s * 0.x
         * MB
     )
+
+    # user_speed_limit = (
+    #     (percentage_speed_limit) / 100 
+    #     * max_speed
+    #     / 8
+    #     * MB
+    # )
     return int(user_speed_limit)
 
 
@@ -90,7 +97,7 @@ if __name__ == "__main__":
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
                                      )
 
-    parser.add_argument("-m", "--max",type=int, default=8,  help="max speed of your internet connection in Mbs unit")
+    parser.add_argument("-m", "--max",type=float, default=1.0,  help="max speed of your internet connection in MB/s unit")
     parser.add_argument("-l", "--limit",type=int, default=100, help="Limit of the downloading speed in percentage [1..100]")
 
     args = parser.parse_args()
@@ -106,8 +113,6 @@ if __name__ == "__main__":
         urls.append(x.strip())
     file.close()
 
-    
-    firstTime = True
 
     while True:
             for url in urls:
@@ -120,7 +125,3 @@ if __name__ == "__main__":
                     # When not able to download full
                     pass
                 
-
-        # except Exception as e:
-        #     print("Downloading error occured...")
-        #     print(e)
