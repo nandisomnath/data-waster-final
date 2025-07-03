@@ -59,7 +59,7 @@ def download(url_path, max_speed, percentage_limit):
     """
     max_speed in Mbs unit like 50 Mbs -> (50 /8) MB/s
     """
-    res = requests.get(url_path, stream=True, timeout=5)
+    res = requests.get(url_path, stream=True, timeout=2)
 
     if res.status_code != 200:
         return
@@ -78,9 +78,8 @@ def download(url_path, max_speed, percentage_limit):
     size = get_limit_size(max_speed, percentage_limit) # download size per second in bytes
     for data in res.iter_content(chunk_size=size):
         td_bar.update(len(data))
-        if percentage_limit == 100:
-            continue
-        time.sleep(0.99) # sleep for second to adjust the speed
+        if percentage_limit != 100:
+            time.sleep(0.99) # sleep for second to adjust the speed
 
     res.close()
     td_bar.close()
