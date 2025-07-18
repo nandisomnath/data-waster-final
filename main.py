@@ -1,5 +1,4 @@
 import requests
-from tqdm import tqdm
 import time
 import argparse
 
@@ -59,7 +58,7 @@ def download(url_path, max_speed, percentage_limit):
     """
     max_speed in Mbs unit like 50 Mbs -> (50 /8) MB/s
     """
-    res = requests.get(url_path, stream=True, timeout=5)
+    res = requests.get(url_path, stream=True, timeout=2)
 
     if res.status_code != 200:
         return
@@ -68,22 +67,34 @@ def download(url_path, max_speed, percentage_limit):
 
     total_size_in_bytes = int(res.headers.get("Content-Length", 0))
 
-    td_bar = tqdm(
-        desc="Data Wasting",
-        total=total_size_in_bytes,
-        unit="B",
-        colour="green",
-        unit_scale=True
-    )
-    size = get_limit_size(max_speed, percentage_limit) # download size per second in bytes
-    for data in res.iter_content(chunk_size=size):
-        td_bar.update(len(data))
-        if percentage_limit == 100:
-            continue
-        time.sleep(0.99) # sleep for second to adjust the speed
+    chunk_size = get_limit_size(max_speed=max_speed, percentage_speed_limit=percentage_limit)
+
+    downloaded_bytes = 0
+    
+    start = time.time()
+
+    for stream in res.iter_content(chunk_size=chunk_size):
+
+        # count the percentage
+        downloaded_bytes += chunk_size
+        percentage = (downloaded_bytes / total_size_in_bytes) * 100
+        end = time.time()
+        duration = end - start
+        start = end
+        current_chunk_size = len(stream)
+        speed = current_chunk_size / duration / MB
+
+        print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s)\r", end="")
+        # time.sleep(0.98)
+
+        # if percentage_limit != 100:
+            
+        
+            
+
 
     res.close()
-    td_bar.close()
+    
 
     # Download is complete 
     update_record(total_size_in_bytes)
