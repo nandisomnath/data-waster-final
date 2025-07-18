@@ -4,9 +4,9 @@ import argparse
 
 
 B = 1
-KB = B * 1000
-MB = KB * 1000
-GB = MB * 1000
+KB = B * 1024
+MB = KB * 1024
+GB = MB * 1024
 
 
 def get_limit_size(max_speed, percentage_speed_limit):
@@ -64,13 +64,9 @@ def download(url_path, max_speed, percentage_limit):
         return
     
     print(f"=> {url}")
-
     total_size_in_bytes = int(res.headers.get("Content-Length", 0))
-
-    chunk_size = get_limit_size(max_speed=max_speed, percentage_speed_limit=percentage_limit)
-
+    chunk_size = get_limit_size(max_speed, percentage_limit)
     downloaded_bytes = 0
-    
     start = time.time()
 
     for stream in res.iter_content(chunk_size=chunk_size):
@@ -85,14 +81,11 @@ def download(url_path, max_speed, percentage_limit):
         speed = current_chunk_size / duration / MB
 
         print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s)\r", end="")
-        # time.sleep(0.98)
+        time.sleep(0.99)
 
         # if percentage_limit != 100:
             
         
-            
-
-
     res.close()
     
 
