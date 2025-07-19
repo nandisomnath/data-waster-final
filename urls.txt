@@ -1,5 +1,3 @@
-https://r2.garudalinux.org/iso/garuda/gnome/240428/garuda-gnome-linux-zen-240428.iso
-https://excellmedia.dl.sourceforge.net/project/garuda-linux/garuda/gnome/240428/garuda-gnome-linux-zen-240428.iso
 https://download.manjaro.org/gnome/24.0.3/manjaro-gnome-24.0.3-240702-linux69.iso
 https://download-cdn.jetbrains.com/idea/ideaIC-2023.3.4.exe
 https://download.virtualbox.org/virtualbox/7.0.14/VirtualBox-7.0.14-161095-Win.exe
