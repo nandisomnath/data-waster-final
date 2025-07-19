@@ -46,10 +46,9 @@ def read_file():
 
 def update_record(total_size_in_bytes):
     total_size_in_gb = read_file()
-    print("Total Download Completed: {} GB".format(total_size_in_gb))
-    total_size_in_gb = total_size_in_gb + float(total_size_in_bytes) / float(
-                            1024 * 1024 * 1024
-                        )
+    
+    total_size_in_gb = total_size_in_gb + float(total_size_in_bytes) / float(GB)
+    print("Total Download Completed: {:.2f} GB".format(total_size_in_gb))
     update_file(total_size_in_gb)
     
 
