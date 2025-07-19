@@ -121,6 +121,9 @@ if __name__ == "__main__":
 
     while True:
             for url in urls:
+                # a protecting layer for the blank lines
+                if url == '':
+                    continue
                 try:
                     download(url, max_speed, percentage_limit)
                 except requests.exceptions.ConnectionError as e:
