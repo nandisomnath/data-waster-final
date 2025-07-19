@@ -55,7 +55,7 @@ def update_record(total_size_in_bytes):
 
 def download(url_path, max_speed, percentage_limit):
     """
-    max_speed in Mbs unit like 50 Mbs -> (50 /8) MB/s
+    @param max_speed  MB/s unit
     """
     res = requests.get(url_path, stream=True, timeout=2)
     print(f"{res.status_code} => {url}")
