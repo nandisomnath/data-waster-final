@@ -59,11 +59,12 @@ def download(url_path, max_speed, percentage_limit):
     max_speed in Mbs unit like 50 Mbs -> (50 /8) MB/s
     """
     res = requests.get(url_path, stream=True, timeout=2)
+    print(f"{res.status_code} => {url}")
 
     if res.status_code != 200:
         return
     
-    print(f"=> {url}")
+  
     total_size_in_bytes = int(res.headers.get("Content-Length", 0))
     chunk_size = get_limit_size(max_speed, percentage_limit)
     downloaded_bytes = 0
@@ -81,7 +82,7 @@ def download(url_path, max_speed, percentage_limit):
         speed = current_chunk_size / duration / MB
 
         print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s)\r", end="")
-        time.sleep(0.982)
+        time.sleep(abs(1 - duration))
 
         # if percentage_limit != 100:
             
