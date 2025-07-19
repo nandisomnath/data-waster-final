@@ -71,17 +71,22 @@ def download(url_path, max_speed, percentage_limit):
 
     for stream in res.iter_content(chunk_size=chunk_size):
 
+        end = time.time()
+
         # count the percentage
         downloaded_bytes += chunk_size
         percentage = (downloaded_bytes / total_size_in_bytes) * 100
-        end = time.time()
+        
         duration = end - start
-        start = end
         current_chunk_size = len(stream)
         speed = current_chunk_size / duration / MB
 
-        print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s)\r", end="")
-        time.sleep(abs(1 - duration))
+        print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s) \r", end="")
+        if duration < 1:
+            time.sleep(1 - duration)
+
+        
+        start = time.time()
 
         # if percentage_limit != 100:
             
