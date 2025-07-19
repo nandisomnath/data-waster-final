@@ -81,7 +81,7 @@ def download(url_path, max_speed, percentage_limit):
         speed = current_chunk_size / duration / MB
 
         print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s)\r", end="")
-        time.sleep(0.99)
+        time.sleep(0.982)
 
         # if percentage_limit != 100:
             

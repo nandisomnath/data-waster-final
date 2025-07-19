@@ -1,8 +1,4 @@
 https://download-cdn.jetbrains.com/idea/ideaIC-2023.3.4.exe
-https://debian.mirror.digitalpacific.com.au/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
-https://mirror.4v1.in/archlinux/iso/2024.02.01/archlinux-2024.02.01-x86_64.iso
-https://rockedge.org/kernels/data/ISO/F96-CE/F96-CE_4.iso
-https://static.redox-os.org/releases/0.8.0/x86_64/redox_desktop_x86_64_2022-11-23_638_livedisk.iso
 https://www.python.org/ftp/python/3.12.2/python-3.12.2-amd64.exe
 https://www.win-rar.com/fileadmin/winrar-versions/winrar/winrar-x64-624.exe
 https://download.virtualbox.org/virtualbox/7.0.14/VirtualBox-7.0.14-161095-Win.exe
