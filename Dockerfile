@@ -12,4 +12,6 @@ RUN python3 -m venv .venv
 
 RUN /workspace/.venv/bin/pip install -r requirements.txt
 
-CMD ["/workspace/.venv/bin/python3", "main.py"]
+
+ENTRYPOINT ["/workspace/.venv/bin/python3", "main.py"]
+CMD []
