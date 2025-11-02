@@ -4,30 +4,23 @@ import argparse
 
 
 B = 1
-KB = B * 1024
-MB = KB * 1024
-GB = MB * 1024
+KB = B * 1000
+MB = KB * 1000
+GB = MB * 1000
 
 
 def get_limit_size(max_speed, percentage_speed_limit):
     # returns a size/sec in bytes
     if percentage_speed_limit > 100:
-        print("Using speed limit greater then 100% ")
+        print("Unable to use speed limit greater then 100% ")
         return None
     
-    user_speed_limit = (
-        (percentage_speed_limit) / 100 # 0.x
-        * max_speed # 6 mb/s * 0.x
-        * MB
+    download_chunk = (
+        (percentage_speed_limit / 100) # 0.x
+        * (max_speed * MB)
     )
 
-    # user_speed_limit = (
-    #     (percentage_speed_limit) / 100 
-    #     * max_speed
-    #     / 8
-    #     * MB
-    # )
-    return int(user_speed_limit)
+    return int(download_chunk)
 
 
 def update_file(value):
@@ -74,26 +67,16 @@ def download(url_path, max_speed, percentage_limit):
         end = time.time()
 
         # count the percentage
-        downloaded_bytes += chunk_size
-        percentage = (downloaded_bytes / total_size_in_bytes) * 100
-        
-        duration = end - start
         current_chunk_size = len(stream)
-        speed = current_chunk_size / duration / MB
-
+        downloaded_bytes += current_chunk_size
+        percentage = (downloaded_bytes / total_size_in_bytes) * 100
+        duration = end - start
+        speed = (current_chunk_size / MB) / duration
         print(f"Download: {percentage:.2f}% ({speed:.2f}MB/s) \r", end="")
-        if duration < 1:
-            time.sleep(1 - duration)
-
-        
         start = time.time()
-
-        # if percentage_limit != 100:
             
-        
     res.close()
     
-
     # Download is complete 
     update_record(total_size_in_bytes)
     return
