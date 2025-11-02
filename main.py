@@ -8,10 +8,10 @@ MB = KB * 1000
 GB = MB * 1000
 
 
-def get_chunk_size(max_speed):
-    # returns chunk size in bytes from maxspeed in MB/s
-    download_chunk = (max_speed * MB)
-    return int(download_chunk)
+# def get_chunk_size(max_speed):
+#     # returns chunk size in bytes from maxspeed in MB/s
+#     download_chunk = (max_speed * MB)
+#     return int(download_chunk)
 
 
 def update_file(value):
@@ -37,10 +37,8 @@ def update_record(total_size_in_bytes):
     
 
 
-def download(url_path, max_speed):
-    """
-    @param max_speed  MB/s unit
-    """
+def download(url_path):
+
     res = requests.get(url_path, stream=True, timeout=2)
     print(f"{res.status_code} => {url}")
 
@@ -83,14 +81,14 @@ def download(url_path, max_speed):
 
 if __name__ == "__main__":
     
-    parser = argparse.ArgumentParser(
-        description="A data waster for the time",
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
-                                     )
+    # parser = argparse.ArgumentParser(
+    #     description="A data waster for the time",
+    #     formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    #                                  )
 
-    parser.add_argument("-m", "--max",type=float, default=1.0,  help="max speed to waste data in MB/s unit")
-    args = parser.parse_args()
-    max_speed = args.max
+    # parser.add_argument("-m", "--max",type=float, default=1.0,  help="max speed to waste data in MB/s unit")
+    # args = parser.parse_args()
+    # max_speed = args.max
 
     file = open("urls.txt", "r")
     urls = []
@@ -105,7 +103,7 @@ if __name__ == "__main__":
                 if url == '':
                     continue
                 try:
-                    download(url, max_speed)
+                    download(url)
                 except requests.exceptions.ConnectionError as e:
                     # when there is not internet or any connection
                     pass
